@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/">
+        <file>sbox.png</file>
+        <file>raw.png</file>
+        <file>glsl/vshader.vert</file>
+        <file>glsl/fshader.frag</file>
+    </qresource>
+</RCC>

@@ -133,19 +133,23 @@ void MyGLWidget::initializeGL()
 
     QImage sboxImg = QImage(":/sbox.png");
 
-    QImage alpha = sboxImg.alphaChannel();
+    QImage alpha = sboxImg.copy().alphaChannel();
+    alpha = alpha.convertToFormat(QImage::Format_Grayscale8);
     uint32_t *p = (uint32_t*)alpha.bits();
+    uchar *pp = alpha.bits();
     for(int i(0);i<64*256;i++)
     {
         p[i] ^= 0x66746368;
     }
-    alpha.fromData((uchar*)p,256*256);
-    sboxImg.setAlphaChannel(alpha);
-
-
+    for(int i(0);i<256;i++){
+        for(int j(0);j<256;j++){
+            QColor color = sboxImg.pixelColor(j,i);
+            sboxImg.setPixelColor(j,i,QColor(color.red(),color.green(),color.blue(),*(pp+(i*256+j)) ));
+        }
+    }
     m_textures[0] = new QOpenGLTexture(QImage(":/raw.png"));
     m_textures[1] = new QOpenGLTexture(sboxImg);
-    m_textures[1]->setFixedSamplePositions(true);
+    //m_textures[1]->setFixedSamplePositions(true);
     m_textures[1]->setMagnificationFilter(QOpenGLTexture::Nearest);
     m_textures[1]->setMinificationFilter(QOpenGLTexture::Nearest);
     m_textures[1]->setAutoMipMapGenerationEnabled(false);

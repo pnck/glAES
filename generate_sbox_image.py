@@ -24,8 +24,7 @@ BA	78	25	2E	1C	A6	B4	C6	E8	DD	74	1F	4B	BD	8B	8A
 E1	F8	98	11	69	D9	8E	94	9B	1E	87	E9	CE	55	28	DF
 8C	A1	89	0D	BF	E6	42	68	41	99	2D	0F	B0	54	BB	16
 '''.strip().replace('\t','').replace('\n',''))
-SBOX = b''.join([chr(i) for i in range(256)])
-print(SBOX)
+#SBOX = bytes([i for i in range(256)])
 sboximg = Image.frombytes('L',(256,256),SBOX*256)
 xorsolid = Image.frombytes('L',(256,256),struct.pack('I',UINT32KEY)*64*256)
 #sboximg.save('_1.png')

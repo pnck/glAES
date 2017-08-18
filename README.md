@@ -1,2 +1,2 @@
 # glAES
-an attempt of gpgpu implement aes 
+an attempt of gpgpu implement aes with qt framework

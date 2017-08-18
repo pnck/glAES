@@ -53,6 +53,8 @@ private:
     int m_attrTexCoord;
     int m_uniformMatrix;
     int m_uniformTexUnit[16];
+public slots:
+    void capturing();
 };
 
 #endif // GLWIDGET_H

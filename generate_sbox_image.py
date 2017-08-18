@@ -27,7 +27,7 @@ E1	F8	98	11	69	D9	8E	94	9B	1E	87	E9	CE	55	28	DF
 #SBOX = bytes([i for i in range(256)])
 sboximg = Image.frombytes('L',(256,256),SBOX*256)
 xorsolid = Image.frombytes('L',(256,256),struct.pack('I',UINT32KEY)*64*256)
-#sboximg.save('_1.png')
+sboximg.save('_1.png')
 sboximg = ImageMath.eval('convert(a^b,"L")',a=sboximg,b=xorsolid)
 #sboximg.save('_2.png')
 #sboximg.show()

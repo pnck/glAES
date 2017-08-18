@@ -40,7 +40,7 @@ void MyGLWidget::paintGL()
 
     static float count = 0;
     QMatrix4x4 m;
-    //m.scale(0.7f);
+    //m.scale(0.8f);
     //m.rotate(count+=0.1,0,0,1);
 
     QPainter painter;
@@ -48,8 +48,8 @@ void MyGLWidget::paintGL()
     painter.beginNativePainting();
 
 
-    glViewport(0,0,this->width(),this->height());
-    glClearColor(0.1f,.0f,0.3f,.0f);
+    //glViewport(0,0,this->width(),this->height());
+    glClearColor(0.3f,0.3f,0.35f,.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glEnable( GL_BLEND );
     glBlendFunc( GL_SRC_ALPHA , GL_ONE_MINUS_SRC_ALPHA );
@@ -93,7 +93,7 @@ void MyGLWidget::paintGL()
         QString framesPerSecond;
         framesPerSecond.setNum(m_frames /(elapsed / 1000.0), 'f', 2);
         painter.setPen(Qt::red);
-        painter.drawText(20, 40, framesPerSecond + " paintGL calls / s");
+        //painter.drawText(20, 40, framesPerSecond + " paintGL calls / s");
     }
 
     painter.end();
@@ -111,7 +111,7 @@ void MyGLWidget::initializeGL()
     static QVector<Vertex> vertices;
     vertices.push_back(Vertex(-1,1,0,0,0));
     vertices.push_back(Vertex(-1,-1,0,0,1));
-    vertices.push_back(Vertex(1,1,0,1,0));
+    vertices.push_back(Vertex(1,1,0,1.0,0));
     vertices.push_back(Vertex(1,-1,0,1,1));
 
     m_vbo = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
@@ -147,10 +147,24 @@ void MyGLWidget::initializeGL()
             sboxImg.setPixelColor(j,i,QColor(color.red(),color.green(),color.blue(),*(pp+(i*256+j)) ));
         }
     }
-    m_textures[0] = new QOpenGLTexture(QImage(":/raw.png"));
-    m_textures[1] = new QOpenGLTexture(sboxImg);
+    sboxImg.copy().convertToFormat(QImage::Format_RGBA8888).save("_2.png");
+    m_textures[0] = new QOpenGLTexture(sboxImg);
+    m_textures[1] = new QOpenGLTexture(QOpenGLTexture::Target1D);
     //m_textures[1]->setFixedSamplePositions(true);
+    m_textures[1]->setAutoMipMapGenerationEnabled(false);
+    m_textures[1]->setData(sboxImg.alphaChannel());
     m_textures[1]->setMagnificationFilter(QOpenGLTexture::Nearest);
     m_textures[1]->setMinificationFilter(QOpenGLTexture::Nearest);
-    m_textures[1]->setAutoMipMapGenerationEnabled(false);
+    m_textures[1]->setWrapMode(QOpenGLTexture::ClampToEdge);
+}
+
+void MyGLWidget::capturing()
+{
+    QRect r = geometry();
+    setGeometry(0,0,256,256);
+    makeCurrent();
+    glViewport(0,0,256,256);
+    QImage img = grabFramebuffer();
+    img.save("_g.png");
+    setGeometry(r);
 }

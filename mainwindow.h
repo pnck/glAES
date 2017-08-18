@@ -15,8 +15,14 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+private slots:
+    void on_actionCapture_triggered();
+
 private:
     Ui::MainWindow *ui;
+
+signals:
+    void capture();
 };
 
 #endif // MAINWINDOW_H

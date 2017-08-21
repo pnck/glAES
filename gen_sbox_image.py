@@ -2,6 +2,7 @@
 UINT32KEY = 0x66746368 # unpack('I','hctf')
 from PIL import Image, ImageMath
 import sys
+import os
 import struct
 if( len(sys.argv) < 2):
     print('usage: '+sys.argv[0]+' FILE')
@@ -24,16 +25,26 @@ BA	78	25	2E	1C	A6	B4	C6	E8	DD	74	1F	4B	BD	8B	8A
 E1	F8	98	11	69	D9	8E	94	9B	1E	87	E9	CE	55	28	DF
 8C	A1	89	0D	BF	E6	42	68	41	99	2D	0F	B0	54	BB	16
 '''.strip().replace('\t','').replace('\n',''))
-#SBOX = bytes([i for i in range(256)])
+SBOX = bytes([255-i for i in range(256)])
 sboximg = Image.frombytes('L',(256,256),SBOX*256)
 xorsolid = Image.frombytes('L',(256,256),struct.pack('I',UINT32KEY)*64*256)
-sboximg.save('_1.png')
+sboximg.save('_1_.png')
 sboximg = ImageMath.eval('convert(a^b,"L")',a=sboximg,b=xorsolid)
-#sboximg.save('_2.png')
-#sboximg.show()
 img = Image.open(sys.argv[1])
 img = img.convert('RGBA')
 img.thumbnail((256,256),Image.ANTIALIAS)
 img.putalpha(sboximg)
-img.save('sbox.png')
+img.save('_1.png')#img.save('sbox.png')
+INVSBOX = [0]*256
+for i in SBOX:
+    INVSBOX[SBOX[i]] = i
+INVSBOX = bytes(INVSBOX)
+invsboximg = Image.frombytes('L',(256,256),INVSBOX*256)
+#invsboximg.save('_2.png')
+invsboximg = ImageMath.eval('convert(a^b,"L")',a=invsboximg,b=xorsolid)
+img = Image.open(sys.argv[1])
+img = img.convert('RGBA')
+img.thumbnail((256,256),Image.ANTIALIAS)
+img.putalpha(invsboximg)
+img.save('_2.png')#img.save('invsbox.png')
 #img.show()

@@ -4,7 +4,7 @@
 #include <QObject>
 #include <QWidget>
 #include <QOpenGLWidget>
-#include <QOpenGLFunctions>
+#include <QOpenGLFunctions_3_0>
 #include <QOpenGLShaderProgram>
 #include <QTime>
 #include <QPainter>
@@ -15,6 +15,7 @@
 #include <QVector3D>
 #include <QVector2D>
 #include <QVector>
+#include <QOpenGLFramebufferObject>
 
 
 class Vertex
@@ -32,15 +33,27 @@ public:
 
 };
 
-class MyGLWidget : public QOpenGLWidget, protected QOpenGLFunctions
+class MyGLWidget : public QOpenGLWidget, protected QOpenGLFunctions_3_0
 {
     Q_OBJECT
+private:
+    enum TextureFunction{
+        TF_RAW = 0,
+        TF_SBOX_LUT,
+        TF_INV_SBOX_LUT,
+        TF_XOR_LUT,
+        TF_STATE,
+        TF_ROUND_KEY
+    };
+
 public:
     explicit MyGLWidget(QWidget *parent);
     ~MyGLWidget();
 protected:
     void paintGL() Q_DECL_OVERRIDE;
     void initializeGL() Q_DECL_OVERRIDE;
+private:
+    void prePareTextures();
 
 protected:
     QOpenGLBuffer *m_vbo;
@@ -53,6 +66,7 @@ private:
     int m_attrTexCoord;
     int m_uniformMatrix;
     int m_uniformTexUnit[16];
+    QOpenGLFramebufferObject * m_stateFbo;
 public slots:
     void capturing();
 };

@@ -4,12 +4,13 @@
 
 int main(int argc, char *argv[])
 {
+    QApplication a(argc, argv);
     QSurfaceFormat format;
     format.setSamples(1);
     format.setSwapBehavior(QSurfaceFormat::DoubleBuffer);
     format.setSwapInterval(0);
+    format.setProfile(QSurfaceFormat::CoreProfile);
     QSurfaceFormat::setDefaultFormat(format);
-    QApplication a(argc, argv);
     MainWindow w;
     w.show();
 

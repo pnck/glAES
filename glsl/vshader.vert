@@ -1,10 +1,11 @@
-attribute vec4 vertex;
-attribute vec4 generalTexCoord;
+#version 130
+in vec4 vertex;
+in vec2 generalTexCoord;
 uniform mat4 matrix;
-varying vec4 texCoord0;
+out vec2 coord;
 
 void main(void)
 {
     gl_Position = matrix * vertex;
-    texCoord0 = generalTexCoord;
+    coord = generalTexCoord;
 }

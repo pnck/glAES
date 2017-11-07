@@ -3,7 +3,7 @@
 # Project created by QtCreator 2017-08-13T15:40:03
 #
 #-------------------------------------------------
-QT += widgets
+QT += widgets gui
 
 TARGET = glAES
 TEMPLATE = app
@@ -34,6 +34,7 @@ FORMS += \
 
 DISTFILES += \
     generate_sbox_image.py
+
 
 RESOURCES += \
     res.qrc

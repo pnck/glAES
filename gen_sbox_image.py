@@ -25,10 +25,10 @@ BA	78	25	2E	1C	A6	B4	C6	E8	DD	74	1F	4B	BD	8B	8A
 E1	F8	98	11	69	D9	8E	94	9B	1E	87	E9	CE	55	28	DF
 8C	A1	89	0D	BF	E6	42	68	41	99	2D	0F	B0	54	BB	16
 '''.strip().replace('\t','').replace('\n',''))
-SBOX = bytes([255-i for i in range(256)])
+#SBOX = bytes([255-i for i in range(256)]) # replace real sbox for test
 sboximg = Image.frombytes('L',(256,256),SBOX*256)
 xorsolid = Image.frombytes('L',(256,256),struct.pack('I',UINT32KEY)*64*256)
-sboximg.save('_1_.png')
+sboximg.save('_1_raw_sbox.png')
 sboximg = ImageMath.eval('convert(a^b,"L")',a=sboximg,b=xorsolid)
 img = Image.open(sys.argv[1])
 img = img.convert('RGBA')
@@ -40,7 +40,6 @@ for i in SBOX:
     INVSBOX[SBOX[i]] = i
 INVSBOX = bytes(INVSBOX)
 invsboximg = Image.frombytes('L',(256,256),INVSBOX*256)
-#invsboximg.save('_2.png')
 invsboximg = ImageMath.eval('convert(a^b,"L")',a=invsboximg,b=xorsolid)
 img = Image.open(sys.argv[1])
 img = img.convert('RGBA')

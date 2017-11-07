@@ -1,9 +1,14 @@
 <RCC>
     <qresource prefix="/">
         <file>raw.png</file>
-        <file>glsl/vshader.vert</file>
-        <file>glsl/fshader.frag</file>
         <file>gen_sbox_image.py</file>
         <file>key.png</file>
+        <file>glsl/mixcol.frag</file>
+        <file>glsl/sub-shift.frag</file>
+        <file>glsl/xorkey.frag</file>
+        <file>glsl/uishow.frag</file>
+        <file>glsl/vshader_trivial.vert</file>
+        <file>glsl/vshader_ui.vert</file>
+        <file>glsl/xorprevgroup.frag</file>
     </qresource>
 </RCC>

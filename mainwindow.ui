@@ -38,7 +38,7 @@
      <x>0</x>
      <y>0</y>
      <width>300</width>
-     <height>23</height>
+     <height>28</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuStart">
@@ -46,12 +46,18 @@
      <string>Start</string>
     </property>
     <addaction name="actionCapture"/>
+    <addaction name="actionselect_file"/>
    </widget>
    <addaction name="menuStart"/>
   </widget>
   <action name="actionCapture">
    <property name="text">
     <string>capture</string>
+   </property>
+  </action>
+  <action name="actionselect_file">
+   <property name="text">
+    <string>select file</string>
    </property>
   </action>
  </widget>

@@ -2,6 +2,8 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QOpenGLTexture>
+#include <QFile>
 
 namespace Ui {
 class MainWindow;
@@ -18,8 +20,11 @@ public:
 private slots:
     void on_actionCapture_triggered();
 
+    void on_actionselect_file_triggered();
+
 private:
     Ui::MainWindow *ui;
+    QOpenGLTexture * fileToTexture(QFile &file);
 
 signals:
     void capture();

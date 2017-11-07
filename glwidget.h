@@ -41,7 +41,7 @@ private:
         TF_RAW = 0,
         TF_SBOX_LUT,
         TF_INV_SBOX_LUT,
-        TF_XOR_LUT,
+        TF_CALC_LUT,
         TF_STATE,
         TF_ROUND_KEY
     };
@@ -53,12 +53,21 @@ protected:
     void paintGL() Q_DECL_OVERRIDE;
     void initializeGL() Q_DECL_OVERRIDE;
 private:
-    void prePareTextures();
+    void prepareTextures();
+   public:
+    void prepareData(QOpenGLTexture*pTexturedData);
 
 protected:
     QOpenGLBuffer *m_vbo;
-    QOpenGLTexture *m_textures[16];
-    QOpenGLShaderProgram *m_program;
+    QOpenGLTexture *m_textures[32];
+
+    QOpenGLShaderProgram *m_progXorKey;
+    QOpenGLShaderProgram *m_progSub_Shift;
+    QOpenGLShaderProgram *m_progMixCol;
+    QOpenGLShaderProgram *m_progCbc;
+
+    QOpenGLShaderProgram *m_progForUI;
+
 private:
     int m_frames;
     QTime m_time;
